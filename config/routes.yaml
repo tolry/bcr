@@ -1,0 +1,11 @@
+index:
+    path: /
+    controller: App\Controller\MainController::index
+feed:
+    path: /feed.json
+    controller: App\Controller\MainController::feed
+    defaults:
+        _format: json
+auth_instagram:
+    path: /auth/instagram
+    controller: App\Controller\AuthController::authInstagram

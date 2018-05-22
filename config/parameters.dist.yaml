@@ -1,0 +1,19 @@
+parameters:
+    app.configuration:
+        - type: twitter
+          options:
+              username: ""
+              key: ""
+              secret: ""
+        - type: youtube
+          options:
+            api_key: ""
+            client_id: ""
+            client_secret: ""
+            channel_id: ""
+        - type: flickr
+          options:
+            user_id: ""
+        - type: instagram
+          options:
+            token: ""

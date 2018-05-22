@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}BCR!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="shortcut icon" type="image/jpeg" href="{{ asset('img/der-bcr.jpg') }}"/>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            <div class="text-center">
+                <img src="{{ asset('img/der-bcr.jpg') }}" class="rounded-circle" alt="" style="height: 200px;">
+            </div>
+            <h1 class="text-center">
+                <span class="text-muted">
+                    <i class="fa fa-free-code-camp"></i>
+                    <i class="fa fa-tree"></i>
+                    <i class="fa fa-cutlery"></i>
+                </span>
+                Alles vom
+                <a href="https://www.cornify.com" onclick="cornify_add();return false;"><img src="https://www.cornify.com/assets/cornifycorn.gif" width="52" height="51" border="0" alt="Cornify" /></a><script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+                BCR!
+                <span class="text-muted">
+                    <i class="fa fa-cutlery"></i>
+                    <i class="fa fa-tree"></i>
+                    <i class="fa fa-free-code-camp"></i>
+                </span>
+            </h1>
+        </div>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+            <script src="{{ asset('build/js/app.js') }}"></script>
+    </body>
+</html>
