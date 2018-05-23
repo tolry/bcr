@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AuthController extends Controller
 {
+    // @todo move secrects to configuration
+
     private static $clientId = '';
     private static $clientSecrect = '';
 
