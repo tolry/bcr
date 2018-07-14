@@ -20,11 +20,20 @@
     "doctrine/common": {
         "version": "v2.8.1"
     },
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
     "doctrine/lexer": {
         "version": "v1.0.1"
+    },
+    "doctrine/persistence": {
+        "version": "v1.0.0"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
     },
     "easycorp/easy-log-handler": {
         "version": "1.0",
@@ -77,6 +86,9 @@
     "myclabs/php-enum": {
         "version": "1.6.0"
     },
+    "nikic/php-parser": {
+        "version": "v4.0.2"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -106,6 +118,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "roave/security-advisories": {
+        "version": "dev-master"
     },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
@@ -247,6 +262,9 @@
             "version": "3.3",
             "ref": "41416370e732d1c8e7a0953a5ce815b641cfba0f"
         }
+    },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.7.0"
