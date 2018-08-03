@@ -1,6 +1,8 @@
-import React from 'react';
-import {render} from 'react-dom';
+import React from 'react'
+import {render} from 'react-dom'
 import moment from 'moment'
+import Plyr from 'react-plyr'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 export default class FeedItem extends React.Component {
     constructor(props) {
@@ -20,8 +22,25 @@ export default class FeedItem extends React.Component {
     render () {
         const item = this.props.data
 
-        return (
-            <div className="row pb-4">
+        let modal = null
+        if (item.channel.video) {
+            modal = (
+                <Modal isOpen={this.state.expanded} size="lg" toggle={() => this.toggle()}>
+                    <ModalHeader toggle={() => this.toggle()}>
+                        <span className="badge badge-secondary badge-pill">
+                            <i className={"fa fa-lg fa-" + item.channel.icon}></i> {item.channel.label}
+                        </span>&nbsp;
+                        {item.title}
+                    </ModalHeader>
+                    <ModalBody>
+                        <Plyr type={item.channel.videoType} videoId={item.id} />
+                    </ModalBody>
+                </Modal>)
+        }
+
+        return [
+            modal,
+            (<div className="row pb-4">
                 { (item.id === localStorage.getItem('lastReadItem'))
                     ? null
                     : null
@@ -42,10 +61,10 @@ export default class FeedItem extends React.Component {
                 </div>
                 {!item.image ? null :
                     <div className="col-3">
-                        <img src={item.image} alt={item.title} className={this.state.expanded ? "card-img-top" : "card-img-top card-img-top-cropped"} onClick={() => this.toggle()} />
+                        <img src={item.image} alt={item.title} className="card-img-top card-img-top-cropped" onClick={() => this.toggle()} />
                     </div>
                 }
-            </div>
-        )
+            </div>)
+        ]
     }
 }
