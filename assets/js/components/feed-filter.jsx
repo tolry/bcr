@@ -10,8 +10,8 @@ export default class FeedFilter extends React.Component {
                         const channel = this.props.filter[key]
 
                         return (
-                            <li className="nav-link">
-                                <button key={channel.id} className={channel.enables ? 'btn btn-light' : 'btn btn-light text-muted'} onClick={() => this.props.callback(channel.id)}>
+                            <li className="nav-link" key={channel.id}>
+                                <button className={channel.enables ? 'btn btn-light' : 'btn btn-light text-muted'} onClick={() => this.props.callback(channel.id)}>
                                     <i className={ channel.enabled ? "fa fa-check-circle-o text-success" : "fa fa-circle-o text-quiet"}></i>&nbsp;
                                     {channel.label}&nbsp;
                                     <i className={"fa fa-"+channel.icon}></i>

@@ -14,7 +14,7 @@ export default class FeedItem extends React.Component {
 
         let media = null
         if (item.channel.video) {
-            media = <Plyr type={item.channel.videoType} videoId={item.id} />
+            media = <Plyr className={"plyr-" + item.id} type={item.channel.videoType} videoId={item.id} />
         } else if (item.image) {
             media = <CardImg top width="100%" src={item.image} alt={item.title} />
         }
