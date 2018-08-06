@@ -51,7 +51,7 @@ export default class Feed extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result)
+                    console.table(result)
                     if (first) {
                         localStorage.setItem('lastReadItem', result[0].items[0].id)
                     }
@@ -91,25 +91,31 @@ export default class Feed extends React.Component {
         })
     }
 
-    render () {
-        const loading = (
+    renderLoading () {
+        return (
             <div className="text-center">
                 <i className="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">loading...</span>
             </div>
         )
+    }
 
+    renderError () {
+        return (
+            <div className="text-center">
+                <i className="fa fa-exclamation-circle text-danger fa-lg"></i>&nbsp;
+                error loading feed(s)
+            </div>
+        )
+    }
+
+    render () {
         if (this.state.error) {
-            return (
-                <div className="text-center">
-                    <i className="fa fa-exclamation-circle text-danger fa-lg"></i>&nbsp;
-                    error loading feed(s)
-                </div>
-            )
+            return this.renderError()
         }
 
         if (this.state.loading && !this.state.items) {
-            return loading
+            return this.renderLoading()
         }
 
         localStorage.setItem('channelFilter', JSON.stringify(this.state.channelFilter))
@@ -129,8 +135,14 @@ export default class Feed extends React.Component {
                     }</span>
                 </div>
                 <div className="container pt-4">
-                    <FeedFilter filter={this.state.channelFilter} callback={(channelId) => this.toggleFilter(channelId)} />
-                    {feedLists}
+                    <div className="row justify-content-center">
+                        <div className="col col-3">
+                            <FeedFilter filter={this.state.channelFilter} callback={(channelId) => this.toggleFilter(channelId)} />
+                        </div>
+                        <div className="col col-6">
+                            {feedLists}
+                        </div>
+                    </div>
                 </div>
             </div>
         )

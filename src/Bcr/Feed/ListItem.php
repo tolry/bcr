@@ -80,7 +80,7 @@ class ListItem
             "https://twitter.com/$username/status/" . $item->id_str,
             null,
             $item->text ?? '',
-            $item->text ?? '',
+            null,
             new \DateTime($item->created_at),
             Channel::twitter($username)
         );

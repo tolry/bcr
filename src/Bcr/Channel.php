@@ -10,17 +10,22 @@ class Channel
     public $id;
     public $icon;
     public $label;
+    public $video = false;
+    public $videoType;
 
-    private function __construct($icon, $label)
+    private function __construct(string $icon, string $label, bool $video = false, string $videoType = null)
     {
         $this->icon = $icon;
         $this->label = $label;
+        $this->video = $video;
+        $this->videoType = $videoType;
+
         $this->id = sprintf('%s :: %s', $icon, $label);
     }
 
     public static function youtube($label): self
     {
-        return new self('youtube', $label);
+        return new self('youtube', $label, true, 'youtube');
     }
 
     public static function flickr($label): self

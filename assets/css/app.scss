@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/scss/font-awesome";
+@import "~plyr/dist/plyr.css";
 
 .card-img-top-cropped {
     height: 5em;
@@ -10,10 +11,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.card-img-top, .card-body {
-    cursor: pointer;
 }
 
 .card {

@@ -6,18 +6,6 @@ export default class FeedList extends React.Component {
 
     constructor (props) {
         super(props)
-
-        this.state = {
-            expanded: false,
-        }
-    }
-
-    toggle (e) {
-        e.preventDefault()
-
-        this.setState({
-            expanded: !this.state.expanded,
-        })
     }
 
     render () {
@@ -35,11 +23,7 @@ export default class FeedList extends React.Component {
             return <div />
         }
 
-        const items = (filteredItems.length > limit && !this.state.expanded)
-            ? filteredItems.slice(0, limit)
-            : filteredItems
-
-        const feedItems = items.map((item) => {
+        const feedItems = filteredItems.map((item) => {
             return (
                 <FeedItem key={item.id} data={item} />
             );
@@ -47,21 +31,11 @@ export default class FeedList extends React.Component {
 
         return (
             <div className="pb-4">
-                <h4>
+                <h4 className="text-center">
                     <i className="fa fa-calendar"></i>&nbsp;
                     {this.props.published} [{filteredItems.length} posts]
                 </h4>
                 {feedItems}
-                { (filteredItems.length > limit)
-                        ? (
-                            <button onClick={(e) => this.toggle(e)} type="button" className="text-center btn btn-sm btn-light btn-block">
-                                <i className={this.state.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'}></i>
-                                &nbsp;{ this.state.expanded ? 'gruselig, das war\'s schon?' : 'puh, da kommt noch mehr?'}&nbsp;
-                                <i className={this.state.expanded ? 'fa fa-chevron-up' : 'fa fa-chevron-down'}></i>
-                            </button>
-                        )
-                        : ''
-                }
             </div>
         )
     }
