@@ -135,8 +135,14 @@ export default class Feed extends React.Component {
                     }</span>
                 </div>
                 <div className="container pt-4">
-                    <FeedFilter filter={this.state.channelFilter} callback={(channelId) => this.toggleFilter(channelId)} />
-                    {feedLists}
+                    <div className="row justify-content-center">
+                        <div className="col col-3">
+                            <FeedFilter filter={this.state.channelFilter} callback={(channelId) => this.toggleFilter(channelId)} />
+                        </div>
+                        <div className="col col-6">
+                            {feedLists}
+                        </div>
+                    </div>
                 </div>
             </div>
         )
