@@ -139,7 +139,7 @@ export default class Feed extends React.Component {
                         <div className="col col-3">
                             <FeedFilter filter={this.state.channelFilter} callback={(channelId) => this.toggleFilter(channelId)} />
                         </div>
-                        <div className="col col-6">
+                        <div className="col col-sm-9 col-lg-6">
                             {feedLists}
                         </div>
                     </div>
