@@ -21,6 +21,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-lazyload": "^2.3.0",
     "react-plyr": "^2.1.1",
     "reactstrap": "^6.3.0",
     "sass-loader": "^6.0.7"
