@@ -12,8 +12,9 @@ export default class FeedItem extends React.Component {
     }
 
     renderMedia (item) {
+        let image = null
         if (item.image) {
-            const image = <CardImg top width="100%" src={item.image} alt={item.title} />
+            image = <CardImg top width="100%" src={item.image} alt={item.title} />
         }
 
         if (item.channel.video) {
