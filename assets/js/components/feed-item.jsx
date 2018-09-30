@@ -32,7 +32,7 @@ export default class FeedItem extends React.Component {
                 {imageCard}
                 <div>
                     {item.images.map((image, index) => {
-                        let css = {width: '80px'}
+                        let css = {width: '80px', cursor: 'pointer'}
                         if (index !== this.state.carouselIndex) {
                             css.filter = 'blur(2px)';
                         }
