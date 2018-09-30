@@ -8,23 +8,47 @@ import { Button, Card, CardImg, CardText, CardBody, CardFooter, CardTitle, CardS
 export default class FeedItem extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {showDebug: false}
+        this.state = {showDebug: false, carouselIndex: 0}
     }
 
     renderMedia (item) {
-        let image = null
-        if (item.image) {
-            image = <CardImg top width="100%" src={item.image} alt={item.title} />
+        let imageCard = null
+        let image = (item.images.length > 0)
+            ? item.images[this.state.carouselIndex]
+            : null
+
+        if (image) {
+            imageCard = <CardImg top width="100%" src={image.url} alt={item.title} />
         }
 
         if (item.channel.video) {
-            return (<LazyLoad placeholder={image}>
+            return (<LazyLoad placeholder={imageCard}>
                 <Plyr className={"plyr-" + item.id} type={item.channel.videoType} videoId={item.id} />
             </LazyLoad>)
         }
 
-        if (item.image) {
-            return image
+        if (item.images.length > 1) {
+            return <div>
+                {imageCard}
+                <div>
+                    {item.images.map((image, index) => {
+                        let css = {width: '80px'}
+                        if (index !== this.state.carouselIndex) {
+                            css.filter = 'blur(2px)';
+                        }
+
+                        return <img
+                            key={'thumbnail-' + index}
+                            class="img-thumbnail" style={css}
+                            src={image.thumbnail}
+                            onClick={() => this.setState({carouselIndex: index})} />
+                    })}
+                </div>
+            </div>
+        }
+
+        if (image) {
+            return imageCard
         }
 
         return null
