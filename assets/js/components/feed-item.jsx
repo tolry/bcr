@@ -16,7 +16,7 @@ export default class FeedItem extends React.Component {
             return
         }
 
-        return <div className="d-flex justify-content-center align-items-center">
+        return <div className="d-flex flex-column align-items-center" style={{ position: 'absolute', right: '-100px' }}>
                 {item.images.map((image, index) => {
                     let css = {width: '80px', cursor: 'pointer'}
                     if (index !== this.state.carouselIndex) {

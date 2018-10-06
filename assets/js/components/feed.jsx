@@ -51,13 +51,13 @@ export default class Feed extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.table(result)
                     if (first) {
                         localStorage.setItem('lastReadItem', result[0].items[0].id)
                     }
 
                     this.setState({
                         loading: false,
+                        error: false,
                         items: result,
                         channelFilter: this.channelFilter(result),
                         updated: new Date(),
