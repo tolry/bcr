@@ -16,6 +16,7 @@ class ListItem
     public $published;
     public $channel;
     public $debugInfo;
+    public $videoProperties = [];
 
     public function __construct(
         string $id,
@@ -35,14 +36,17 @@ class ListItem
         $this->debugInfo = $debugInfo;
     }
 
-    public function addImage(string $url, ?string $thumbnail = null): self
+    public function addImage(string $url, ?string $thumbnail = null): void
     {
         $this->images[] = [
             'url' => $url,
             'thumbnail' => $thumbnail
         ];
+    }
 
-        return $this;
+    public function setVideoProperties(array $props): void
+    {
+        $this->videoProperties = $props;
     }
 
     public static function createFromFlickrItem(array $item): self
@@ -106,13 +110,14 @@ class ListItem
             json_decode(json_encode($item->toSimpleObject()), true)
         );
         $instance->addImage("https://i.ytimg.com/vi/{$item->getId()->getVideoId()}/maxresdefault.jpg");
+        $instance->setVideoProperties(['type' => 'youtube', 'videoId' => $instance->id]);
 
         return $instance;
     }
 
     public static function createFromTwitterItem($item, string $username): self
     {
-        return new self(
+        $instance = new self(
             $item->id_str ?? uniqid(),
             "https://twitter.com/$username/status/" . $item->id_str,
             null,
@@ -121,5 +126,19 @@ class ListItem
             Channel::twitter($username),
             json_decode(json_encode($item), true)
         );
+
+        if (isset($item->extended_entities->media[0])) {
+            foreach ($item->extended_entities->media as $media) {
+                $instance->addImage($media->media_url_https);
+
+                if ($media->video_info) {
+                    $instance->setVideoProperties([
+                        'type' => 'video',
+                        'url' => $media->video_info->variants[0]->url,
+                    ]);
+                }
+            }
+        }
+        return $instance;
     }
 }
