@@ -1,0 +1,5 @@
+---
+- name: Install compopser package
+  apt:
+      name: composer
+      state: present

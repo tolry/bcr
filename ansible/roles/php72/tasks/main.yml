@@ -1,0 +1,32 @@
+---
+-   name: add php7.2 repository
+    apt_repository:
+        repo: 'ppa:ondrej/php'
+        state: present
+
+-   name: Install php packages.
+    apt:
+        name: ['memcached', 'php7.2', 'php7.2-cli', 'php7.2-fpm', 'php7.2-json', 'php7.2-dom', 'php7.2-memcached', 'php7.2-curl', 'curl']
+        state: present
+    notify:
+        - restart php-fpm
+
+-   name: ensure php log dir exists
+    file:
+        path: "{{ fpm_log_path }}"
+        state: directory
+        owner: "{{ fpm_user }}"
+        group: "{{ fpm_group }}"
+        recurse: true
+
+-   name: place php-fpm configuration file.
+    template:
+        src: fpm-www.conf.j2
+        dest: /etc/php/7.2/fpm/pool.d/www.conf
+    notify:
+        - restart php-fpm
+
+-   name: start and enable php-fpm service.
+    service:
+        name: php7.2-fpm
+        enabled: true
