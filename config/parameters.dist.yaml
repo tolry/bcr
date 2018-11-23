@@ -17,3 +17,6 @@ parameters:
         - type: instagram
           options:
             token: ""
+        - type: rss
+          options:
+            feed_url: ""

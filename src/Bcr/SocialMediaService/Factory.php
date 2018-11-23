@@ -17,6 +17,8 @@ final class Factory
                 return new Flickr($options['user_id']);
             case Type::INSTAGRAM:
                 return new Instagram($options['token']);
+            case Type::RSS:
+                return new Rss($options['feed_url']);
             default:
                 throw new \RuntimeException("unsupported type: " . (string) $type);
         }

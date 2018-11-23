@@ -57,11 +57,13 @@ export default class FeedItem extends React.Component {
 
     render () {
         const item = this.props.data
+        const isNew = false
 
         return (<div>
             {this.renderCarousel(item)}
             <Card className="mb-4">
-                { (item.id === localStorage.getItem('lastReadItem'))
+                {isNew ? <div className="ribbon ribbon-top-left"><span><i className="fa fa-star"></i></span></div> : null}
+                {(item.id === localStorage.getItem('lastReadItem'))
                         ? null
                         : null
                 }
@@ -71,7 +73,7 @@ export default class FeedItem extends React.Component {
                         <Button tag="a" outline color="secondary" href={item.link} target="_blank"><i className="fa fa-fire"/> auf geht's</Button>
                     </div>
                     {!item.title ? null : <CardTitle>{item.title}</CardTitle>}
-                    {!item.description ? null : <CardSubtitle>{item.description}</CardSubtitle>}
+                    {!item.description ? null : <CardSubtitle dangerouslySetInnerHTML={{ __html: item.description }} />}
                 </CardBody>
                 <CardFooter className="text-muted">
                     <i className={"fa fa-lg fa-" + item.channel.icon}></i> {item.channel.label},&nbsp;

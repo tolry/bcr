@@ -10,4 +10,5 @@ class Type extends Enum
     public const TWITTER = 'twitter';
     public const INSTAGRAM = 'instagram';
     public const FLICKR = 'flickr';
+    public const RSS = 'rss';
 }

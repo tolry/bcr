@@ -38,4 +38,9 @@ class Channel
     {
         return new self('instagram', $label);
     }
+
+    public static function rss($label): self
+    {
+        return new self('rss', $label);
+    }
 }

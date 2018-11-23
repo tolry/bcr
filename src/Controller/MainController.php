@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Bcr\Configuration;
 use App\Bcr\Feed;
+use App\Bcr\Feed\ListItem;
 use DateTime;
 use IntlDateFormatter;
 use Psr\Log\LoggerInterface;
@@ -45,7 +46,7 @@ class MainController extends Controller
             'MMMM YYYY'
         );
 
-        usort($items, function ($a, $b) use ($groupBy) {
+        usort($items, function (ListItem $a, ListItem $b) use ($groupBy) {
             return $b->$groupBy <=> $a->$groupBy;
         });
 

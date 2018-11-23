@@ -2,9 +2,10 @@
 
 namespace App\Bcr\Feed;
 
-use App\Bcr\Channel;
 use \DateTime;
+use App\Bcr\Channel;
 use Google_Service_YouTube_SearchResult;
+use Zend\Feed\Reader\Entry\Rss;
 
 class ListItem
 {
@@ -139,6 +140,21 @@ class ListItem
                 }
             }
         }
+        return $instance;
+    }
+
+    public static function createFromRssItem(Rss $item, string $feedTitle): self
+    {
+        $instance = new self(
+            $item->getId(),
+            $item->getLink(),
+            $item->getTitle(),
+            $item->getContent(),
+            $item->getDateModified(),
+            Channel::rss($feedTitle),
+            json_decode(json_encode($item), true)
+        );
+
         return $instance;
     }
 }
