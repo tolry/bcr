@@ -125,7 +125,7 @@ class FeedItem extends React.Component {
                     <Chip
                         avatar={
                             <Avatar>
-                                <FontAwesomeIcon icon={['fab', 'instagram']} />
+                                <FontAwesomeIcon size="lg" icon={item.channel.icon} />
                             </Avatar>
                         }
                         label={item.channel.label}
@@ -134,7 +134,7 @@ class FeedItem extends React.Component {
                         className={classes.chip}
                         avatar={
                             <Avatar>
-                                <FontAwesomeIcon icon={['far', 'clock']} />
+                                <FontAwesomeIcon icon={'clock'} />
                             </Avatar>
                         }
                         title={moment(item.published.date).format('DD.MMMM.YYYY HH:mm:ss')}

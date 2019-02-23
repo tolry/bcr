@@ -33,7 +33,7 @@ class FeedFilter extends React.Component {
                     return (
                         <ListItem button key={channel.id}>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={['fab', channel.icon]} />
+                                <FontAwesomeIcon size="lg" icon={channel.icon} />
                             </ListItemIcon>
                             <ListItemText>{channel.label}</ListItemText>
                             <ListItemSecondaryAction>

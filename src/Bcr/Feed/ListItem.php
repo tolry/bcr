@@ -5,7 +5,7 @@ namespace App\Bcr\Feed;
 use \DateTime;
 use App\Bcr\Channel;
 use Google_Service_YouTube_SearchResult;
-use Zend\Feed\Reader\Entry\Rss;
+use Zend\Feed\Reader\Entry\AbstractEntry;
 
 class ListItem
 {
@@ -143,7 +143,7 @@ class ListItem
         return $instance;
     }
 
-    public static function createFromRssItem(Rss $item, string $feedTitle): self
+    public static function createFromRssItem(AbstractEntry $item, string $feedTitle): self
     {
         $instance = new self(
             $item->getId(),

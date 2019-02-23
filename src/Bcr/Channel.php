@@ -11,9 +11,9 @@ class Channel
     public $icon;
     public $label;
 
-    private function __construct(string $icon, string $label, bool $video = false, string $videoType = null)
+    private function __construct(string $icon, string $label, $iconPrefix = 'fab')
     {
-        $this->icon = $icon;
+        $this->icon = [$iconPrefix, $icon];
         $this->label = $label;
 
         $this->id = sprintf('%s :: %s', $icon, $label);
@@ -41,6 +41,6 @@ class Channel
 
     public static function rss($label): self
     {
-        return new self('rss', $label);
+        return new self('rss', $label, 'fas');
     }
 }
