@@ -1,26 +1,22 @@
 import React from 'react'
 import moment from 'moment'
-import Plyr from 'react-plyr'
-import LazyLoad from 'react-lazyload'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
 import { CardActionArea, IconButton, Collapse, Chip, Avatar } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import FeedItemImage from './feed-item-image'
+import FeedItemVideo from './feed-item-video'
+import FeedItemImageCarousel from './feed-item-image-carousel';
 
 const styles = theme => ({
     card: {},
     cardHeader: {
-        fontSize: '1.2em'
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
+        fontSize: '1.2em',
     },
     actions: {
         display: 'flex',
@@ -38,9 +34,9 @@ const styles = theme => ({
 })
 
 class FeedItem extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { showDebug: false, carouselIndex: 0 }
+    state = {
+        showDebug: false,
+        carouselIndex: 0,
     }
 
     renderCarousel(item) {
@@ -73,32 +69,9 @@ class FeedItem extends React.Component {
         )
     }
 
-    hasVideo = item =>
-        typeof item.videoProperties === 'object' && Object.keys(item.videoProperties).length > 0
-
-    renderMedia = item => {
-        const { classes } = this.props
-        let imageCard = null
-        let image = item.images.length > 0 ? item.images[this.state.carouselIndex] : null
-
-        if (image) {
-            imageCard = <CardMedia className={classes.media} image={image.url} title={item.title} />
-        }
-
-        if (this.hasVideo(item)) {
-            return (
-                <LazyLoad placeholder={imageCard}>
-                    <Plyr className={'plyr-' + item.id} {...item.videoProperties} />
-                </LazyLoad>
-            )
-        }
-
-        if (image) {
-            return imageCard
-        }
-
-        return null
-    }
+    hasVideo = item => item.videoProperties && Object.keys(item.videoProperties).length > 0
+    hasJustSingleImage = item => !this.hasVideo(item) && item.images.length === 1
+    hasSlideshow = item => !this.hasVideo(item) && item.images.length > 1
 
     render() {
         const { classes } = this.props
@@ -106,9 +79,10 @@ class FeedItem extends React.Component {
 
         return (
             <Card className={classes.card}>
-                {this.hasVideo(item) && this.renderMedia(item)}
+                {this.hasVideo(item) && <FeedItemVideo item={item} />}
+                {this.hasSlideshow(item) && <FeedItemImageCarousel item={item} />}
                 <CardActionArea href={item.link} target="_blank">
-                    {!this.hasVideo(item) && this.renderMedia(item)}
+                    {this.hasJustSingleImage(item) && <FeedItemImage image={item.images[0]} />}
                     {item.title && <CardHeader className={classes.cardHeader} title={item.title} />}
                     {item.description && (
                         <CardContent>
