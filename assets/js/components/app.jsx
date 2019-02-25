@@ -41,23 +41,20 @@ class App extends React.Component {
         loading: true,
         items: null,
         error: false,
-        channelFilter: null,
+        channels: null,
         updated: null,
         menuActive: true,
     }
 
     componentDidMount() {
+
         this.loadData()
         setInterval(() => this.loadData(), 30000)
     }
 
     channels = groupedItems => {
         let filter = {}
-
-        let storedFilter = {}
-        try {
-            storedFilter = JSON.parse(localStorage.getItem('channels'))
-        } catch (e) {}
+        let storedFilter = JSON.parse(localStorage.getItem('channels')) || {}
 
         groupedItems.map(group => {
             group.items.map(item => {
@@ -128,7 +125,8 @@ class App extends React.Component {
     }
     render() {
         const { classes } = this.props
-        localStorage.setItem('channels', JSON.stringify(this.state.channels))
+
+        this.state.channels && localStorage.setItem('channels', JSON.stringify(this.state.channels))
 
         return (
             <div>
