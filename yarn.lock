@@ -2047,6 +2047,13 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
+cornified@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cornified/-/cornified-1.1.0.tgz#a845268f5e8ca6722a24af282df08f44e51770d3"
+  integrity sha512-so0YxeZ42Tzm55zSl5xsDlbF+pFVENKImOq1fqZ4otYYIn92c17L+LGsj08ZtkUFoBm42n2f/TDbkQYrZO0N6Q==
+  dependencies:
+    lodash-es "4.17.4"
+
 cosmiconfig@^5.0.0:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.0.7.tgz#39826b292ee0d78eda137dfa3173bd1c21a43b04"
@@ -4416,6 +4423,11 @@ locate-path@^3.0.0:
   dependencies:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
+
+lodash-es@4.17.4:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+  integrity sha1-3MHXVS4VCgZABzupyzHXDwMpUOc=
 
 lodash._baseassign@^3.0.0:
   version "3.2.0"

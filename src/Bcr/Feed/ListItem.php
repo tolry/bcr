@@ -132,7 +132,7 @@ class ListItem
             foreach ($item->extended_entities->media as $media) {
                 $instance->addImage($media->media_url_https);
 
-                if ($media->video_info) {
+                if (property_exists($media, 'video_info')) {
                     $instance->setVideoProperties([
                         'type' => 'video',
                         'url' => $media->video_info->variants[0]->url,

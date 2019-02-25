@@ -15,6 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const styles = theme => ({
     card: {},
+    cardHeader: {
+        fontSize: '1.2em'
+    },
     media: {
         height: 0,
         paddingTop: '56.25%', // 16:9
@@ -31,9 +34,6 @@ const styles = theme => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)',
-    },
-    chip: {
-        verticalAlign: 'middle',
     },
 })
 
@@ -109,7 +109,7 @@ class FeedItem extends React.Component {
                 {this.hasVideo(item) && this.renderMedia(item)}
                 <CardActionArea href={item.link} target="_blank">
                     {!this.hasVideo(item) && this.renderMedia(item)}
-                    {item.title && <CardHeader title={item.title} />}
+                    {item.title && <CardHeader className={classes.cardHeader} title={item.title} />}
                     {item.description && (
                         <CardContent>
                             <Typography
@@ -131,7 +131,6 @@ class FeedItem extends React.Component {
                         label={item.channel.label}
                     />
                     <Chip
-                        className={classes.chip}
                         avatar={
                             <Avatar>
                                 <FontAwesomeIcon icon={'clock'} />

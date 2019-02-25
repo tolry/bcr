@@ -3,9 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}BCR!{% endblock %}</title>
-        <script src="{{ asset('build/runtime.js') }}"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
         <link rel="shortcut icon" type="image/jpeg" href="{{ asset('img/der-bcr.jpg') }}"/>
+
+        <script src="{{ asset('build/runtime.js') }}"></script>
+
         {% block stylesheets %}{% endblock %}
     </head>
     <body>

@@ -7,8 +7,9 @@ import React from 'react'
 import Feed from './feed.jsx'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import { Avatar, CssBaseline, Drawer, SwipeableDrawer } from '@material-ui/core'
+import { Avatar, CssBaseline, Drawer, SwipeableDrawer, Grid, Chip, Fade } from '@material-ui/core'
 import FeedFilter from './feed-filter.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const styles = {
     root: {
@@ -20,6 +21,18 @@ const styles = {
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
+    },
+    menuItem: {
+        marginRight: 20,
+    },
+    association: {
+        marginTop: '1em',
+        marginRight: 20,
+    },
+    bcrAvatar: {
+        margin: '2em auto',
+        width: '90%',
+        height: 'auto',
     },
 }
 
@@ -130,6 +143,9 @@ class App extends React.Component {
                             filter={this.state.channels}
                             onToggle={channelId => this.toggleChannel(channelId)}
                         />
+                        <Fade timeout={10000} in>
+                            <Avatar src="/img/der-bcr.jpg" className={classes.bcrAvatar} />
+                        </Fade>
                     </SwipeableDrawer>
                 )}
                 <div className={classes.root}>
@@ -143,13 +159,43 @@ class App extends React.Component {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Avatar src="/img/der-bcr.jpg" />
-                            <Typography variant="h6" color="inherit" className={classes.grow}>
-                                BCR {this.state.loading && <small>loading...</small>}
+                            <Avatar className={classes.menuItem} src="/img/bcr-logo.png" />
+                            <Typography
+                                className={classes.menuItem}
+                                variant="headline"
+                                color="inherit"
+                            >
+                                BCR
                             </Typography>
-                            <Button color="inherit">Login</Button>
+                            <Typography
+                                className={classes.menuItem}
+                                variant="subheading"
+                                color="textSecondary"
+                            >
+                                <i>unofficial</i> aggregator for all your BCR needs
+                            </Typography>
+                            {this.state.loading && (
+                                <Typography variant="subheading" color="primary">
+                                    loading...
+                                </Typography>
+                            )}
+
+                            <div className={classes.grow} />
+
+                            <Button color="inherit">
+                                <img src="https://www.cornify.com/assets/cornifycorn.gif" />
+                            </Button>
                         </Toolbar>
                     </AppBar>
+                    <Grid container>
+                        <div className={classes.grow} />
+                        <Chip
+                            className={classes.association}
+                            variant="outlined"
+                            icon={<FontAwesomeIcon size="2x" icon={['fab', 'hooli']} />}
+                            label="no association"
+                        />
+                    </Grid>
                 </div>
                 {this.state.items && (
                     <Feed items={this.state.items} channels={this.state.channels} />
