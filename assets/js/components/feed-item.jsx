@@ -40,36 +40,6 @@ class FeedItem extends React.Component {
         carouselIndex: 0,
     }
 
-    renderCarousel(item) {
-        if (item.images.length <= 1) {
-            return
-        }
-
-        return (
-            <div
-                className="d-flex flex-column align-items-center"
-                style={{ position: 'absolute', right: '-100px' }}
-            >
-                {item.images.map((image, index) => {
-                    let css = { width: '80px', cursor: 'pointer' }
-                    if (index !== this.state.carouselIndex) {
-                        css.filter = 'blur(2px)'
-                    }
-
-                    return (
-                        <img
-                            key={'thumbnail-' + index}
-                            className="img-thumbnail m-1"
-                            style={css}
-                            src={image.thumbnail}
-                            onClick={() => this.setState({ carouselIndex: index })}
-                        />
-                    )
-                })}
-            </div>
-        )
-    }
-
     hasVideo = item => item.videoProperties && Object.keys(item.videoProperties).length > 0
     hasJustSingleImage = item => !this.hasVideo(item) && item.images.length === 1
     hasSlideshow = item => !this.hasVideo(item) && item.images.length > 1
@@ -81,6 +51,7 @@ class FeedItem extends React.Component {
         return (
             <Card
                 className={classes.card}
+                elevation={5}
             >
                 <CardHeader
                     avatar={

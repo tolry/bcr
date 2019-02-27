@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles, MobileStepper, Button, IconButton } from '@material-ui/core'
+import { withStyles, MobileStepper, Button, IconButton, Typography, CardContent } from '@material-ui/core'
 import FeedItemImage from './feed-item-image'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -34,6 +34,7 @@ class FeedItemImageCarousel extends React.Component {
                     nextButton={<IconButton onClick={this.next}><ChevronRight /></IconButton>}
                     backButton={<IconButton onClick={this.back}><ChevronLeft /></IconButton>}
                 />
+                {images[index].label && <CardContent><Typography variant="p">{images[index].label}</Typography></CardContent>}
             </div>
         )
     }

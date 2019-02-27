@@ -26,11 +26,27 @@ class Flickr implements SocialMediaServiceInterface
 
         $data = json_decode($jsonString, true);
 
-        return array_map(
-            function ($item) {
-                return ListItem::createFromFlickrItem($item);
+        return array_reduce(
+            array_map(
+                function ($item) {
+                    return ListItem::createFromFlickrItem($item);
+                },
+                $data['items']
+            ),
+            function (array $carry, ListItem $item) {
+               if (count($carry) === 0) {
+                   return [$item];
+               } 
+
+               $last = end($carry);
+
+               if ($last->published->diff($item->published)->i < 60) {
+                    $last->addImage($item->images[0]['url'], $item->images[0]['label']);
+               }
+
+               return $carry;
             },
-            $data['items']
+            []
         );
     }
 }

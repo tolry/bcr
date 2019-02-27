@@ -37,11 +37,12 @@ class ListItem
         $this->debugInfo = $debugInfo;
     }
 
-    public function addImage(string $url, ?string $thumbnail = null): void
+    public function addImage(string $url, ?string $label = null, ?string $thumbnail = null): void
     {
         $this->images[] = [
             'url' => $url,
-            'thumbnail' => $thumbnail
+            'thumbnail' => $thumbnail,
+            'label' => $label,
         ];
     }
 
@@ -56,14 +57,14 @@ class ListItem
             $item['link'] ?? uniqid(),
             $item['link'] ?? '',
             null,
-            $item['title'] ?? '',
+            null,
             new \DateTime($item['published']),
             Channel::flickr('dragonito'),
             $item
         );
 
         if (isset($item['media']['m'])) {
-            $instance->addImage($item['media']['m']);
+            $instance->addImage($item['media']['m'], $item['title']);
         }
 
         return $instance;
@@ -89,6 +90,7 @@ class ListItem
 
                 $instance->addImage(
                     $media['images']['standard_resolution']['url'],
+                    null,
                     $media['images']['thumbnail']['url']
                 );
             }
