@@ -43,7 +43,7 @@ class App extends React.Component {
         error: false,
         channels: null,
         updated: null,
-        menuActive: true,
+        menuActive: false,
     }
 
     componentDidMount() {

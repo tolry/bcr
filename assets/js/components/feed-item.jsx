@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import FeedItemImage from './feed-item-image'
 import FeedItemVideo from './feed-item-video'
-import FeedItemImageCarousel from './feed-item-image-carousel';
+import FeedItemImageCarousel from './feed-item-image-carousel'
 
 const styles = theme => ({
     card: {},
@@ -36,6 +36,7 @@ const styles = theme => ({
 class FeedItem extends React.Component {
     state = {
         showDebug: false,
+        hover: false,
         carouselIndex: 0,
     }
 
@@ -78,7 +79,30 @@ class FeedItem extends React.Component {
         const item = this.props.data
 
         return (
-            <Card className={classes.card}>
+            <Card
+                className={classes.card}
+                onMouseEnter={() => this.setState({ hover: true })}
+                onMouseLeave={() => this.setState({ hover: false })}
+            >
+                <CardHeader
+                    avatar={
+                        <Avatar>
+                            <FontAwesomeIcon size="lg" icon={item.channel.icon} />
+                        </Avatar>
+                    }
+                    subheader={
+                        <span title={moment(item.published.date).format('DD.MMMM YYYY, HH:mm:ss')}>
+                            posted {moment(item.published.date).fromNow()}
+                        </span>
+                    }
+                    title={
+                        <span>
+                            {item.channel.label} <small>{item.channel.type}</small>
+                        </span>
+                    }
+                    href={item.link}
+                    target="_blank"
+                />
                 {this.hasVideo(item) && <FeedItemVideo item={item} />}
                 {this.hasSlideshow(item) && <FeedItemImageCarousel item={item} />}
                 <CardActionArea href={item.link} target="_blank">
@@ -95,35 +119,22 @@ class FeedItem extends React.Component {
                         </CardContent>
                     )}
                 </CardActionArea>
-                <CardActions>
-                    <Chip
-                        avatar={
-                            <Avatar>
-                                <FontAwesomeIcon size="lg" icon={item.channel.icon} />
-                            </Avatar>
-                        }
-                        label={item.channel.label}
-                    />
-                    <Chip
-                        avatar={
-                            <Avatar>
-                                <FontAwesomeIcon icon={'clock'} />
-                            </Avatar>
-                        }
-                        title={moment(item.published.date).format('DD.MMMM.YYYY HH:mm:ss')}
-                        label={moment(item.published.date).fromNow()}
-                    />
-                    <IconButton
-                        onClick={() => this.setState({ showDebug: !this.state.showDebug })}
-                        className={
-                            this.state.showDebug
-                                ? `${classes.expand} ${classes.expandOpen}`
-                                : classes.expand
-                        }
-                    >
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
+
+                {this.state.hover && (
+                    <CardActions>
+                        <IconButton
+                            onClick={() => this.setState({ showDebug: !this.state.showDebug })}
+                            className={
+                                this.state.showDebug
+                                    ? `${classes.expand} ${classes.expandOpen}`
+                                    : classes.expand
+                            }
+                        >
+                            <ExpandMoreIcon />
+                        </IconButton>
+                    </CardActions>
+                )}
+
                 <Collapse in={this.state.showDebug} timeout="auto" unmountOnExit>
                     <Typography component="pre">
                         <Typography component="code">
