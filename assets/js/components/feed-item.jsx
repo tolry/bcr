@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import FeedItemImage from './feed-item-image'
 import FeedItemVideo from './feed-item-video'
 import FeedItemImageCarousel from './feed-item-image-carousel'
+import { isDev } from '../isDev';
 
 const styles = theme => ({
     card: {},
@@ -36,7 +37,6 @@ const styles = theme => ({
 class FeedItem extends React.Component {
     state = {
         showDebug: false,
-        hover: false,
         carouselIndex: 0,
     }
 
@@ -81,8 +81,6 @@ class FeedItem extends React.Component {
         return (
             <Card
                 className={classes.card}
-                onMouseEnter={() => this.setState({ hover: true })}
-                onMouseLeave={() => this.setState({ hover: false })}
             >
                 <CardHeader
                     avatar={
@@ -120,7 +118,7 @@ class FeedItem extends React.Component {
                     )}
                 </CardActionArea>
 
-                {this.state.hover && (
+                {isDev() && (
                     <CardActions>
                         <IconButton
                             onClick={() => this.setState({ showDebug: !this.state.showDebug })}

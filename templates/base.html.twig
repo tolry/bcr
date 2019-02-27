@@ -17,7 +17,7 @@
 
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body data-env="{{ app.environment }}" id="body">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
             <script src="{{ asset('build/js/app.js') }}"></script>
