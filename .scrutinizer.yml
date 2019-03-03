@@ -1,6 +1,6 @@
 build:
     environment:
-        node: "v8.9.0"
+        node: "v8.15.0"
     nodes:
         analysis:
             project_setup:
