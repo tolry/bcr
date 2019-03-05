@@ -12,6 +12,7 @@ class ListItem
     public $id;
     public $link;
     public $images = [];
+    public $audio = [];
     public $title;
     public $description;
     public $published;
@@ -37,12 +38,20 @@ class ListItem
         $this->debugInfo = $debugInfo;
     }
 
-    public function addImage(string $url, ?string $label = null, ?string $thumbnail = null): void
+    public function addImage(string $url, ?string $label = null, ?string $thumbnail = null, ?string $link = null): void
     {
         $this->images[] = [
             'url' => $url,
             'thumbnail' => $thumbnail,
             'label' => $label,
+            'link' => $link,
+        ];
+    }
+
+    public function addAudio(string $url)
+    {
+        $this->audio[] = [
+            'url' => $url,
         ];
     }
 
@@ -64,7 +73,7 @@ class ListItem
         );
 
         if (isset($item['media']['m'])) {
-            $instance->addImage($item['media']['m'], $item['title']);
+            $instance->addImage($item['media']['m'], $item['title'], null, $item['link']);
         }
 
         return $instance;
@@ -147,15 +156,37 @@ class ListItem
 
     public static function createFromRssItem(AbstractEntry $item, string $feedTitle): self
     {
+
         $instance = new self(
-            $item->getId(),
-            $item->getLink(),
+            sha1($item->getId()),
+            $item->getLink() ?? '',
             $item->getTitle(),
-            $item->getContent(),
-            $item->getDateModified(),
+            $item->getDescription(),
+            $item->getDateModified() ?? new \DateTime(),
             Channel::rss($feedTitle),
             json_decode(json_encode($item), true)
         );
+
+        // check itunes-podcast
+
+        $xpath = $item->getXpath();
+        $xpath->registerNamespace('itunes', 'http://www.itunes.com/dtds/podcast-1.0.dtd');
+        $prefix = $item->getXpathPrefix();
+
+        $summary = $xpath->evaluate("string($prefix/itunes:summary[1])");
+        if ($summary) {
+            $instance->description = $summary;
+        }
+
+        $image = $xpath->evaluate("string($prefix/itunes:image[1]/@href)");
+        if ($image) {
+            $instance->addImage($image);
+        }
+
+        $audio = $xpath->evaluate("string($prefix/enclosure[1]/@url)");
+        if ($audio) {
+            $instance->addAudio($audio);
+        }
 
         return $instance;
     }

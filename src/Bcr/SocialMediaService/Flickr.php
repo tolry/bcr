@@ -41,7 +41,7 @@ class Flickr implements SocialMediaServiceInterface
                $last = end($carry);
 
                if ($last->published->diff($item->published)->i < 60) {
-                    $last->addImage($item->images[0]['url'], $item->images[0]['label']);
+                    $last->addImage($item->images[0]['url'], $item->images[0]['label'], null, $item->images[0]['link']);
                }
 
                return $carry;

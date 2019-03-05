@@ -6,19 +6,17 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
-import { CardActionArea, IconButton, Collapse, Chip, Avatar } from '@material-ui/core'
+import { CardActionArea, IconButton, Collapse, Avatar } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import FeedItemImage from './feed-item-image'
+import FeedItemAudio from './feed-item-audio'
 import FeedItemVideo from './feed-item-video'
 import FeedItemImageCarousel from './feed-item-image-carousel'
-import { isDev } from '../isDev';
+import { isDev } from '../isDev'
 
 const styles = theme => ({
     card: {},
-    cardHeader: {
-        fontSize: '1.2em',
-    },
     actions: {
         display: 'flex',
     },
@@ -41,6 +39,7 @@ class FeedItem extends React.Component {
     }
 
     hasVideo = item => item.videoProperties && Object.keys(item.videoProperties).length > 0
+    hasAudio = item => item.audio && Object.keys(item.audio).length > 0
     hasJustSingleImage = item => !this.hasVideo(item) && item.images.length === 1
     hasSlideshow = item => !this.hasVideo(item) && item.images.length > 1
 
@@ -49,10 +48,7 @@ class FeedItem extends React.Component {
         const item = this.props.data
 
         return (
-            <Card
-                className={classes.card}
-                elevation={5}
-            >
+            <Card className={classes.card} elevation={5}>
                 <CardHeader
                     avatar={
                         <Avatar>
@@ -69,34 +65,33 @@ class FeedItem extends React.Component {
                             {item.channel.label} <small>{item.channel.type}</small>
                         </span>
                     }
-                    href={item.link}
-                    target="_blank"
                 />
                 {this.hasVideo(item) && <FeedItemVideo item={item} />}
                 {this.hasSlideshow(item) && <FeedItemImageCarousel item={item} />}
                 <CardActionArea href={item.link} target="_blank">
                     {this.hasJustSingleImage(item) && <FeedItemImage image={item.images[0]} />}
-                    {item.title && <CardHeader className={classes.cardHeader} title={item.title} />}
+                    {item.title && <CardHeader title={item.title} />}
                     {item.description && (
                         <CardContent>
-                            <Typography
-                                component="p"
-                                dangerouslySetInnerHTML={{
-                                    __html: item.description,
-                                }}
-                            />
+                            {item.description && (
+                                <Typography
+                                    component="p"
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.description,
+                                    }}
+                                />
+                            )}
                         </CardContent>
                     )}
                 </CardActionArea>
+                {this.hasAudio(item) && <FeedItemAudio item={item} />}
 
                 {isDev() && (
                     <CardActions>
                         <IconButton
                             onClick={() => this.setState({ showDebug: !this.state.showDebug })}
                             className={
-                                this.state.showDebug
-                                    ? `${classes.expand} ${classes.expandOpen}`
-                                    : classes.expand
+                                this.state.showDebug ? `${classes.expand} ${classes.expandOpen}` : classes.expand
                             }
                         >
                             <ExpandMoreIcon />
@@ -106,9 +101,7 @@ class FeedItem extends React.Component {
 
                 <Collapse in={this.state.showDebug} timeout="auto" unmountOnExit>
                     <Typography component="pre">
-                        <Typography component="code">
-                            {JSON.stringify(item.debugInfo, null, 4)}
-                        </Typography>
+                        <Typography component="code">{JSON.stringify(item.debugInfo, null, 4)}</Typography>
                     </Typography>
                 </Collapse>
             </Card>
