@@ -5,13 +5,14 @@ namespace App\Bcr\Feed;
 use \DateTime;
 use App\Bcr\Channel;
 use Google_Service_YouTube_SearchResult;
-use Zend\Feed\Reader\Entry\Rss;
+use Zend\Feed\Reader\Entry\AbstractEntry;
 
 class ListItem
 {
     public $id;
     public $link;
     public $images = [];
+    public $audio = [];
     public $title;
     public $description;
     public $published;
@@ -37,11 +38,20 @@ class ListItem
         $this->debugInfo = $debugInfo;
     }
 
-    public function addImage(string $url, ?string $thumbnail = null): void
+    public function addImage(string $url, ?string $label = null, ?string $thumbnail = null, ?string $link = null): void
     {
         $this->images[] = [
             'url' => $url,
-            'thumbnail' => $thumbnail
+            'thumbnail' => $thumbnail,
+            'label' => $label,
+            'link' => $link,
+        ];
+    }
+
+    public function addAudio(string $url)
+    {
+        $this->audio[] = [
+            'url' => $url,
         ];
     }
 
@@ -56,14 +66,14 @@ class ListItem
             $item['link'] ?? uniqid(),
             $item['link'] ?? '',
             null,
-            $item['title'] ?? '',
+            null,
             new \DateTime($item['published']),
             Channel::flickr('dragonito'),
             $item
         );
 
         if (isset($item['media']['m'])) {
-            $instance->addImage($item['media']['m']);
+            $instance->addImage($item['media']['m'], $item['title'], null, $item['link']);
         }
 
         return $instance;
@@ -89,6 +99,7 @@ class ListItem
 
                 $instance->addImage(
                     $media['images']['standard_resolution']['url'],
+                    null,
                     $media['images']['thumbnail']['url']
                 );
             }
@@ -132,7 +143,7 @@ class ListItem
             foreach ($item->extended_entities->media as $media) {
                 $instance->addImage($media->media_url_https);
 
-                if ($media->video_info) {
+                if (property_exists($media, 'video_info')) {
                     $instance->setVideoProperties([
                         'type' => 'video',
                         'url' => $media->video_info->variants[0]->url,
@@ -143,17 +154,39 @@ class ListItem
         return $instance;
     }
 
-    public static function createFromRssItem(Rss $item, string $feedTitle): self
+    public static function createFromRssItem(AbstractEntry $item, string $feedTitle): self
     {
+
         $instance = new self(
-            $item->getId(),
-            $item->getLink(),
+            sha1($item->getId()),
+            $item->getLink() ?? '',
             $item->getTitle(),
-            $item->getContent(),
-            $item->getDateModified(),
+            $item->getDescription(),
+            $item->getDateModified() ?? new \DateTime(),
             Channel::rss($feedTitle),
             json_decode(json_encode($item), true)
         );
+
+        // check itunes-podcast
+
+        $xpath = $item->getXpath();
+        $xpath->registerNamespace('itunes', 'http://www.itunes.com/dtds/podcast-1.0.dtd');
+        $prefix = $item->getXpathPrefix();
+
+        $summary = $xpath->evaluate("string($prefix/itunes:summary[1])");
+        if ($summary) {
+            $instance->description = $summary;
+        }
+
+        $image = $xpath->evaluate("string($prefix/itunes:image[1]/@href)");
+        if ($image) {
+            $instance->addImage($image);
+        }
+
+        $audio = $xpath->evaluate("string($prefix/enclosure[1]/@url)");
+        if ($audio) {
+            $instance->addAudio($audio);
+        }
 
         return $instance;
     }

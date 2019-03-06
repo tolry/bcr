@@ -1,26 +1,54 @@
-import React from 'react';
-import {render} from 'react-dom';
+import React from 'react'
+import {
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    ListSubheader,
+    Checkbox,
+    ListItemSecondaryAction,
+    Switch,
+    withStyles,
+} from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export default class FeedFilter extends React.Component {
-    render () {
+const styles = {
+    root: {
+        minWidth: 300,
+    },
+}
+
+class FeedFilter extends React.Component {
+    render = () => {
+        const { classes } = this.props
         return (
-            <ul className="nav border-info border-left">
-                {
-                    Object.keys(this.props.filter).map((key) => {
-                        const channel = this.props.filter[key]
+            <List
+                component="nav"
+                className={classes.root}
+                subheader={<ListSubheader>Channels</ListSubheader>}
+            >
+                {Object.keys(this.props.filter).map(key => {
+                    const channel = this.props.filter[key]
 
-                        return (
-                            <li className="nav-link" key={channel.id}>
-                                <button className={channel.enables ? 'btn btn-light' : 'btn btn-light text-muted'} onClick={() => this.props.callback(channel.id)}>
-                                    <i className={ channel.enabled ? "fa fa-check-circle-o text-success" : "fa fa-circle-o text-quiet"}></i>&nbsp;
-                                    {channel.label}&nbsp;
-                                    <i className={"fa fa-"+channel.icon}></i>
-                                </button>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+                    return (
+                        <ListItem button key={channel.id}>
+                            <ListItemIcon>
+                                <FontAwesomeIcon size="lg" icon={channel.icon} />
+                            </ListItemIcon>
+                            <ListItemText>{channel.label}</ListItemText>
+                            <ListItemSecondaryAction>
+                                <Switch
+                                    checked={channel.enabled}
+                                    color="primary"
+                                    onChange={() => this.props.onToggle(channel.id)}
+                                />
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    )
+                })}
+            </List>
         )
     }
 }
+
+export default withStyles(styles)(FeedFilter)

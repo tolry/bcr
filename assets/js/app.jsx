@@ -1,13 +1,10 @@
-import '../css/app.scss';
+import React from 'react'
+import { render } from 'react-dom'
+import App from './components/app.jsx'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faClock, faRss } from '@fortawesome/free-solid-svg-icons'
+import { faInstagram, faFlickr, faYoutube, faTwitter, faHooli } from '@fortawesome/free-brands-svg-icons'
 
-import React from 'react';
-import Feed from './components/feed.jsx';
-import {render} from 'react-dom';
+library.add(faClock, faInstagram, faFlickr, faYoutube, faTwitter, faRss, faHooli)
 
-class App extends React.Component {
-    render () {
-        return <Feed />
-    }
-}
-
-render(<App/>, document.getElementById('app'));
+render(<App />, document.getElementById('app'))

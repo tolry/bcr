@@ -19,6 +19,15 @@ Encore
 
     .enableReactPreset()
 
+    .enableSingleRuntimeChunk()
+
+    .configureBabel(function(babelConfig) {
+        return {
+            ...babelConfig,
+            "plugins": ["@babel/plugin-proposal-class-properties"]
+        }
+    })
+
     // uncomment for legacy applications that require $/jQuery as a global variable
     // .autoProvidejQuery()
 ;
