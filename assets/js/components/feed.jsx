@@ -1,9 +1,6 @@
 import React from 'react'
-import FeedList from './feed-list.jsx'
-import FeedFilter from './feed-filter.jsx'
-import { render } from 'react-dom'
-import moment from 'moment'
-import { Grid, Typography, withStyles, Avatar } from '@material-ui/core'
+import FeedItem from './feed-item.jsx'
+import { Grid, withStyles } from '@material-ui/core'
 
 const styles = {
     root: {
@@ -15,18 +12,22 @@ const styles = {
 class Feed extends React.Component {
     render() {
         const { classes } = this.props
+        const items = this.props.items.filter(item => {
+            if (!this.props.channels[item.channel.id]) {
+                return true
+            }
+
+            return this.props.channels[item.channel.id].enabled
+        })
 
         return (
             <div className={classes.root}>
-                <Grid justify="center" container spacing={24}>
-                    {this.props.items.map(group => {
+                <Grid container justify="center" spacing={24}>
+                    {items.map(item => {
                         return (
-                            <FeedList
-                                key={group.published}
-                                published={group.published}
-                                items={group.items}
-                                filter={this.props.channels}
-                            />
+                            <Grid item key={item.id} xs={12}>
+                                <FeedItem key={item.id} data={item} />
+                            </Grid>
                         )
                     })}
                 </Grid>

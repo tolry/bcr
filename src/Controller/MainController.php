@@ -32,37 +32,13 @@ class MainController extends Controller
     {
         $items = $this->feed->fetchItems();
 
-        return new JsonResponse($this->groupByDate($items, 'published'));
-    }
-
-    private function groupByDate(array $items, $groupBy): array
-    {
-        $fmt = new IntlDateFormatter(
-            'de_DE',
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::FULL,
-            'Europe/Berlin',
-            IntlDateFormatter::GREGORIAN,
-            'MMMM YYYY'
+        usort(
+            $items,
+            function (ListItem $a, ListItem $b) {
+               return $b->published <=> $a->published;
+            }
         );
 
-        usort($items, function (ListItem $a, ListItem $b) use ($groupBy) {
-            return $b->$groupBy <=> $a->$groupBy;
-        });
-
-        $groupedItems = [];
-        foreach ($items as $item) {
-            $group = $fmt->format($item->$groupBy);
-            if (!isset($groupedItems[$group])) {
-                $groupedItems[$group] = [
-                    $groupBy => $group,
-                    'items' => [],
-                ];
-            }
-
-            $groupedItems[$group]['items'][] = $item;
-        }
-
-        return array_values($groupedItems);
+        return new JsonResponse($items);
     }
 }

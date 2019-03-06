@@ -47,30 +47,25 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-
         this.loadData()
         setInterval(() => this.loadData(), 30000)
     }
 
-    channels = groupedItems => {
+    channels = items => {
         let filter = {}
         let storedFilter = JSON.parse(localStorage.getItem('channels')) || {}
 
-        groupedItems.map(group => {
-            group.items.map(item => {
-                if (!filter[item.channel.id]) {
-                    filter[item.channel.id] = {
-                        ...item.channel,
-                        count: 0,
-                        enabled:
-                            storedFilter && storedFilter[item.channel.id]
-                                ? storedFilter[item.channel.id].enabled
-                                : true,
-                    }
+        items.map(item => {
+            if (!filter[item.channel.id]) {
+                filter[item.channel.id] = {
+                    ...item.channel,
+                    count: 0,
+                    enabled:
+                        storedFilter && storedFilter[item.channel.id] ? storedFilter[item.channel.id].enabled : true,
                 }
+            }
 
-                filter[item.channel.id].count++
-            })
+            filter[item.channel.id].count++
         })
 
         return filter
@@ -158,18 +153,10 @@ class App extends React.Component {
                                 <MenuIcon />
                             </IconButton>
                             <Avatar className={classes.menuItem} src="/img/bcr-logo.png" />
-                            <Typography
-                                className={classes.menuItem}
-                                variant="headline"
-                                color="inherit"
-                            >
+                            <Typography className={classes.menuItem} variant="headline" color="inherit">
                                 BCR
                             </Typography>
-                            <Typography
-                                className={classes.menuItem}
-                                variant="subheading"
-                                color="textSecondary"
-                            >
+                            <Typography className={classes.menuItem} variant="subheading" color="textSecondary">
                                 <i>unofficial</i> aggregator for all your BCR needs
                             </Typography>
                             {this.state.loading && (
@@ -195,9 +182,7 @@ class App extends React.Component {
                         />
                     </Grid>
                 </div>
-                {this.state.items && (
-                    <Feed items={this.state.items} channels={this.state.channels} />
-                )}
+                {this.state.items && <Feed items={this.state.items} channels={this.state.channels} />}
             </div>
         )
     }
