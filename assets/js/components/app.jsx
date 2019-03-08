@@ -7,7 +7,17 @@ import React from 'react'
 import Feed from './feed.jsx'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import { Avatar, CssBaseline, Drawer, SwipeableDrawer, Grid, Chip, Fade } from '@material-ui/core'
+import {
+    Avatar,
+    CssBaseline,
+    Drawer,
+    SwipeableDrawer,
+    Grid,
+    Chip,
+    Fade,
+    Hidden,
+    CircularProgress,
+} from '@material-ui/core'
 import FeedFilter from './feed-filter.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -156,14 +166,13 @@ class App extends React.Component {
                             <Typography className={classes.menuItem} variant="headline" color="inherit">
                                 BCR
                             </Typography>
-                            <Typography className={classes.menuItem} variant="subheading" color="textSecondary">
-                                <i>unofficial</i> aggregator for all your BCR needs
-                            </Typography>
-                            {this.state.loading && (
-                                <Typography variant="subheading" color="primary">
-                                    loading...
+                            <Hidden smDown>
+                                <Typography className={classes.menuItem} variant="subheading" color="textSecondary">
+                                    <i>unofficial</i> aggregator for all your BCR needs
                                 </Typography>
-                            )}
+                            </Hidden>
+
+                            {this.state.loading && <CircularProgress />}
 
                             <div className={classes.grow} />
 
