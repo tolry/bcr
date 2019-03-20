@@ -47,10 +47,10 @@ class Feed
     public function getItemsCached(SocialMediaServiceInterface $feed, string $hash) : array
     {
         try {
-            $key  = 'feed_$hash';
+            $key  = 'feed_' . $hash;
             $item = $this->cache->getItem($key);
 
-            if (true || ! $item->isHit()) {
+            if (! $item->isHit()) {
                 $item->set($feed->getList());
                 $item->expiresAfter(300);
                 $this->cache->save($item);

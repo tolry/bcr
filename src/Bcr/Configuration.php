@@ -12,7 +12,6 @@ use function sha1;
 
 class Configuration
 {
-    /** @var array<array<string,string|array<string,string>>> */
     private $configuration;
 
     /** @param array<array<string,string|array<string,string>>> $configuration */
