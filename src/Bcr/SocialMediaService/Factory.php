@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bcr\SocialMediaService;
+
+use RuntimeException;
 
 final class Factory
 {
-    public function create(Type $type, array $options): SocialMediaServiceInterface
+    public function create(Type $type, array $options) : SocialMediaServiceInterface
     {
         // @todo validate options array, specific to type
 
@@ -20,7 +24,7 @@ final class Factory
             case Type::RSS:
                 return new Rss($options['feed_url']);
             default:
-                throw new \RuntimeException("unsupported type: " . (string) $type);
+                throw new RuntimeException('unsupported type: ' . (string) $type);
         }
     }
 }

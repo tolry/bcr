@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
 use Zend\Feed\Reader\Reader;
+use function array_map;
+use function iterator_to_array;
 
 class Rss implements SocialMediaServiceInterface
 {
@@ -17,11 +21,11 @@ class Rss implements SocialMediaServiceInterface
     /**
      * @return ListItem[]
      */
-    public function getList(): array
+    public function getList() : array
     {
         $feed = Reader::import($this->feedUrl);
         return array_map(
-            function ($item) use ($feed) {
+            static function ($item) use ($feed) {
                 return ListItem::createFromRssItem($item, $feed->getTitle());
             },
             iterator_to_array($feed)

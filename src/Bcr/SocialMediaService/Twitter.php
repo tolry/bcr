@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bcr\SocialMediaService;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Bcr\Feed\ListItem;
+use function array_map;
 
 class Twitter implements SocialMediaServiceInterface
 {
@@ -14,14 +17,14 @@ class Twitter implements SocialMediaServiceInterface
     public function __construct(string $username, string $key, string $secret)
     {
         $this->username = $username;
-        $this->key = $key;
-        $this->secret = $secret;
+        $this->key      = $key;
+        $this->secret   = $secret;
     }
 
     /**
      * @return ListItem[]
      */
-    public function getList(): array
+    public function getList() : array
     {
         $twitterClient = new TwitterOAuth($this->key, $this->secret);
 
