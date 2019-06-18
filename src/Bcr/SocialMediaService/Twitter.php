@@ -6,6 +6,7 @@ namespace App\Bcr\SocialMediaService;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Bcr\Feed\ListItem;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
 
 class Twitter implements SocialMediaServiceInterface
@@ -14,7 +15,7 @@ class Twitter implements SocialMediaServiceInterface
     private $key;
     private $secret;
 
-    public function __construct(string $username, string $key, string $secret)
+    public function __construct(HttpClientInterface $httpClient, string $username, string $key, string $secret)
     {
         $this->username = $username;
         $this->key      = $key;

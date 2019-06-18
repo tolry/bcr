@@ -8,6 +8,7 @@ use App\Bcr\Feed\ListItem;
 use Google_Client;
 use Google_Service_YouTube;
 use Google_Service_YouTube_SearchResult;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
 
 class YouTube implements SocialMediaServiceInterface
@@ -16,6 +17,7 @@ class YouTube implements SocialMediaServiceInterface
     private $channelId;
 
     public function __construct(
+        HttpClientInterface $httpClient,
         string $apiKey,
         string $clientId,
         string $clientSecret,

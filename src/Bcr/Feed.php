@@ -9,6 +9,7 @@ use App\Bcr\SocialMediaService\SocialMediaServiceInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
+use function array_merge;
 use function get_class;
 use function sprintf;
 
@@ -40,7 +41,7 @@ class Feed
         foreach ($feeds as $hash => $feed) {
             $cachedItems = $this->getItemsCached($feed, $hash);
             if (! empty($cachedItems)) {
-                $items += $cachedItems;
+                $items = array_merge($items, $cachedItems);
 
                 continue;
             }
@@ -53,7 +54,7 @@ class Feed
             $newItems = $feed->getList();
             $this->cacheItems($newItems, $hash);
 
-            $items += $newItems;
+            $items = array_merge($items, $newItems);
         }
 
         return $items;
@@ -66,13 +67,7 @@ class Feed
             $key  = 'feed_' . $hash;
             $item = $this->cache->getItem($key);
 
-            if (! $item->isHit()) {
-                $item->set($feed->getList());
-                $item->expiresAfter(300);
-                $this->cache->save($item);
-            }
-
-            return $item->get();
+            return $item->isHit() ? $item->get() : [];
         } catch (Throwable $e) {
             $this->logger->critical(sprintf(
                 'exception %s, msg: %s, stacktrace: %s',

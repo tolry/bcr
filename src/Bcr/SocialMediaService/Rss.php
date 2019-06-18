@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
-use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Zend\Feed\Reader\Reader;
 use function array_map;
 use function iterator_to_array;
@@ -14,16 +14,17 @@ class Rss implements SocialMediaServiceInterface
 {
     private $feedUrl;
     private $lazyResponse;
+    private $httpClient;
 
-    public function __construct(string $feedUrl)
+    public function __construct(HttpClientInterface $httpClient, string $feedUrl)
     {
-        $this->feedUrl = $feedUrl;
+        $this->feedUrl    = $feedUrl;
+        $this->httpClient = $httpClient;
     }
 
     public function initializeApiRequest() : void
     {
-        $client             = new CurlHttpClient();
-        $this->lazyResponse = $client->request('GET', $this->feedUrl);
+        $this->lazyResponse = $this->httpClient->request('GET', $this->feedUrl);
     }
 
     /**

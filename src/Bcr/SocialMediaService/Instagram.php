@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
-use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
 use function sprintf;
 use function urlencode;
@@ -13,22 +13,23 @@ use function urlencode;
 class Instagram implements SocialMediaServiceInterface
 {
     private $token;
+    private $httpClient;
     private $lazyResponse;
 
-    public function __construct(string $token)
+    public function __construct(HttpClientInterface $httpClient, string $token)
     {
-        $this->token = $token;
+        $this->token      = $token;
+        $this->httpClient = $httpClient;
     }
 
     public function initializeApiRequest() : void
     {
-        $client = new CurlHttpClient();
-        $url    = sprintf(
+        $url = sprintf(
             'https://api.instagram.com/v1/users/self/media/recent/?access_token=%s',
             urlencode($this->token)
         );
 
-        $this->lazyResponse = $client->request('GET', $url);
+        $this->lazyResponse = $this->httpClient->request('GET', $url);
     }
 
     /**

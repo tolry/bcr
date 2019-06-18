@@ -5,7 +5,7 @@ declare (strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
-use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
 use function array_reduce;
 use function count;
@@ -19,21 +19,22 @@ class Flickr implements SocialMediaServiceInterface
 {
     private $userId;
     private $lazyResponse;
+    private $httpClient;
 
-    public function __construct(string $userId)
+    public function __construct(HttpClientInterface $httpClient, string $userId)
     {
-        $this->userId = $userId;
+        $this->userId     = $userId;
+        $this->httpClient = $httpClient;
     }
 
     public function initializeApiRequest() : void
     {
-        $client = new CurlHttpClient();
-        $url    = sprintf(
+        $url = sprintf(
             'https://www.flickr.com/services/feeds/photos_public.gne?id=%s&lang=en-us&format=json&nojsoncallback=1',
             urlencode($this->userId)
         );
 
-        $this->lazyResponse = $client->request('GET', $url);
+        $this->lazyResponse = $this->httpClient->request('GET', $url);
     }
 
     /**
