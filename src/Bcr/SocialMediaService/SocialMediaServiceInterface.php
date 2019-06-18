@@ -8,6 +8,8 @@ use App\Bcr\Feed\ListItem;
 
 interface SocialMediaServiceInterface
 {
+    public function initializeApiRequest() : void;
+
     /**
      * @return ListItem[]
      */

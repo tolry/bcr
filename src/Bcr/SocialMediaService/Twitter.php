@@ -21,6 +21,10 @@ class Twitter implements SocialMediaServiceInterface
         $this->secret   = $secret;
     }
 
+    public function initializeApiRequest() : void
+    {
+    }
+
     /**
      * @return ListItem[]
      */

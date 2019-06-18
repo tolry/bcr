@@ -29,6 +29,10 @@ class YouTube implements SocialMediaServiceInterface
         $this->channelId = $channelId;
     }
 
+    public function initializeApiRequest() : void
+    {
+    }
+
     /**
      * @return ListItem[]
      */

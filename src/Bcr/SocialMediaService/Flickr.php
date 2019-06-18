@@ -5,7 +5,7 @@ declare (strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
-use Buzz\Browser;
+use Symfony\Component\HttpClient\CurlHttpClient;
 use function array_map;
 use function array_reduce;
 use function count;
@@ -18,10 +18,22 @@ use function urlencode;
 class Flickr implements SocialMediaServiceInterface
 {
     private $userId;
+    private $lazyResponse;
 
     public function __construct(string $userId)
     {
         $this->userId = $userId;
+    }
+
+    public function initializeApiRequest() : void
+    {
+        $client = new CurlHttpClient();
+        $url    = sprintf(
+            'https://www.flickr.com/services/feeds/photos_public.gne?id=%s&lang=en-us&format=json&nojsoncallback=1',
+            urlencode($this->userId)
+        );
+
+        $this->lazyResponse = $client->request('GET', $url);
     }
 
     /**
@@ -29,13 +41,11 @@ class Flickr implements SocialMediaServiceInterface
      */
     public function getList() : array
     {
-        $browser    = new Browser();
-        $url        = sprintf(
-            'https://www.flickr.com/services/feeds/photos_public.gne?id=%s&lang=en-us&format=json&nojsoncallback=1',
-            urlencode($this->userId)
-        );
-        $response   = $browser->get($url);
-        $jsonString = str_replace("\\'", "'", (string) $response->getContent());
+        if (! $this->lazyResponse) {
+            $this->initializeApiRequest();
+        }
+
+        $jsonString = str_replace("\\'", "'", $this->lazyResponse->getContent());
 
         $data = json_decode($jsonString, true);
 

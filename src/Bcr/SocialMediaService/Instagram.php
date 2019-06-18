@@ -5,18 +5,30 @@ declare(strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
-use Buzz\Browser;
+use Symfony\Component\HttpClient\CurlHttpClient;
 use function array_map;
-use function json_decode;
 use function sprintf;
+use function urlencode;
 
 class Instagram implements SocialMediaServiceInterface
 {
     private $token;
+    private $lazyResponse;
 
     public function __construct(string $token)
     {
         $this->token = $token;
+    }
+
+    public function initializeApiRequest() : void
+    {
+        $client = new CurlHttpClient();
+        $url    = sprintf(
+            'https://api.instagram.com/v1/users/self/media/recent/?access_token=%s',
+            urlencode($this->token)
+        );
+
+        $this->lazyResponse = $client->request('GET', $url);
     }
 
     /**
@@ -24,15 +36,11 @@ class Instagram implements SocialMediaServiceInterface
      */
     public function getList() : array
     {
-        $url = sprintf(
-            'https://api.instagram.com/v1/users/self/media/recent/?access_token=%s',
-            $this->token
-        );
+        if (! $this->lazyResponse) {
+            $this->initializeApiRequest();
+        }
 
-        $browser  = new Browser();
-        $response = $browser->get($url);
-
-        $data = json_decode($response->getContent(), true);
+        $data = $this->lazyResponse->toArray();
 
         return array_map(
             static function ($item) {
