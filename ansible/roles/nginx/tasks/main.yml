@@ -1,0 +1,16 @@
+---
+- name: Install nginx packages.
+  apt:
+    name: nginx
+    state: present
+
+- name: Uninstall apache packages.
+  apt:
+    name: httpd
+    state: absent
+
+- name: start and enable nginx service.
+  service:
+    name: nginx
+    state: started
+    enabled: true

@@ -1,0 +1,13 @@
+---
+-   hosts: all
+    roles:
+        -   role: app
+            become: true
+        -   role: php72
+            become: true
+        -   role: npm
+            become: true
+        -   role: composer
+            become: true
+        -   role: nginx
+            become: true

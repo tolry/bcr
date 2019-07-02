@@ -1,0 +1,25 @@
+---
+-   name: ensure hosts entry
+    lineinfile:
+        dest: /etc/hosts
+        regexp: '^127.0.0.1'
+        line: '127.0.0.1 localhost {{ app_hostname }}'
+
+-   name: nginx config copy
+    template:
+        src: vhost.j2
+        dest: /etc/nginx/sites-available/bcr.conf
+
+-   name: nginx config API link
+    file:
+        src: /etc/nginx/sites-available/bcr.conf
+        dest: /etc/nginx/sites-enabled/bcr.conf
+        state: link
+
+-   name: Remove symlink
+    file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+    notify:
+        - restart nginx
+        - restart php-fpm
