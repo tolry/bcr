@@ -32,17 +32,21 @@ class Rss implements SocialMediaServiceInterface
      */
     public function getList() : array
     {
-        if (! $this->lazyResponse) {
-            $this->initializeApiRequest();
+        try {
+            if (! $this->lazyResponse) {
+                $this->initializeApiRequest();
+            }
+
+            $feed = Reader::importString($this->lazyResponse->getContent());
+
+            return array_map(
+                static function ($item) use ($feed) {
+                    return ListItem::createFromRssItem($item, $feed->getTitle());
+                },
+                iterator_to_array($feed)
+            );
+        } catch (\Symfony\Component\HttpClient\Exception\ServerException $e) {
+            return [];
         }
-
-        $feed = Reader::importString($this->lazyResponse->getContent());
-
-        return array_map(
-            static function ($item) use ($feed) {
-                return ListItem::createFromRssItem($item, $feed->getTitle());
-            },
-            iterator_to_array($feed)
-        );
     }
 }
