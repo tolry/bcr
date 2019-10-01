@@ -16,6 +16,9 @@ final class Factory
         $this->httpClient = new CurlHttpClient();
     }
 
+    /**
+     * @param array<string, string> $options
+     */
     public function create(Type $type, array $options) : SocialMediaServiceInterface
     {
         // @todo validate options array, specific to type

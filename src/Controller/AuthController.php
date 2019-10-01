@@ -7,6 +7,7 @@ namespace App\Controller;
 use Buzz\Browser;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -16,14 +17,15 @@ use function str_replace;
 
 class AuthController extends Controller
 {
-    // @todo move secrects to configuration
+    private $logger;
+    private $clientId;
+    private $clientSecret;
 
-    private static $clientId      = '';
-    private static $clientSecrect = '';
-
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameters)
     {
-        $this->logger = $logger;
+        $this->logger       = $logger;
+        $this->clientId     = $parameters->get('instagram_client_id');
+        $this->clientSecret = $parameters->get('instagram_client_secret');
     }
 
     public function authInstagram(Request $request) : Response
@@ -36,17 +38,17 @@ class AuthController extends Controller
             $this->generateUrl('auth_instagram', [], UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
+        if ($request->query->has('code')) {
+            return $this->fetchPermanentToken($request->get('code'), $callbackUrl);
+        }
+
         $queryParameters = [
-            'client_id' => self::$clientId,
+            'client_id' => $this->clientId,
             'redirect_uri' => $callbackUrl,
             'response_type' => 'code',
             'scope' => 'public_content',
         ];
         $url             = 'https://api.instagram.com/oauth/authorize/?' . http_build_query($queryParameters);
-
-        if ($request->query->has('code')) {
-            return $this->fetchPermanentToken($request->get('code'), $callbackUrl);
-        }
 
         return $this->render('auth/auth-instagram.html.twig', ['link' => $url]);
     }
@@ -54,8 +56,8 @@ class AuthController extends Controller
     private function fetchPermanentToken(string $token, string $callbackUrl) : Response
     {
         $form     = [
-            'client_id' => self::$clientId,
-            'client_secret' => self::$clientSecrect,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $callbackUrl,
             'code' => $token,
