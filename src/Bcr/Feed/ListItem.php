@@ -86,13 +86,15 @@ class ListItem
 
     public static function createFromInstagramItem(array $item) : self
     {
+        $user = $item['user']['full_name'] ?? 'dragonito';
+
         $instance = new self(
             $item['link'] ?? uniqid(),
             $item['link'] ?? '',
             null,
             $item['caption']['text'] ?? '',
             new DateTime('@' . $item['created_time']),
-            Channel::instagram('dragonito'),
+            Channel::instagram($user),
             $item
         );
 
