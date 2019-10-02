@@ -46,7 +46,7 @@ class AuthController extends Controller
             'client_id' => $this->clientId,
             'redirect_uri' => $callbackUrl,
             'response_type' => 'code',
-            'scope' => 'public_content',
+            'scope' => 'basic',
         ];
         $url             = 'https://api.instagram.com/oauth/authorize/?' . http_build_query($queryParameters);
 
@@ -62,6 +62,8 @@ class AuthController extends Controller
             'redirect_uri' => $callbackUrl,
             'code' => $token,
         ];
+        $this->logger->critical('instagram :: form ' . json_encode($form));
+
         $browser  = new Browser();
         $response = $browser->submit(
             'https://api.instagram.com/oauth/access_token',
