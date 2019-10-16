@@ -7,6 +7,7 @@ namespace App\Bcr\SocialMediaService;
 use App\Bcr\Feed\ListItem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
+use function sha1;
 use function sprintf;
 use function urlencode;
 
@@ -49,5 +50,15 @@ class Instagram implements SocialMediaServiceInterface
             },
             $data['data']
         );
+    }
+
+    public function getRefreshInterval() : int
+    {
+        return 15;
+    }
+
+    public function getHash() : string
+    {
+        return sprintf('instagram_%s', sha1($this->token));
     }
 }

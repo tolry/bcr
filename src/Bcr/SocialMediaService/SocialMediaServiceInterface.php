@@ -14,4 +14,8 @@ interface SocialMediaServiceInterface
      * @return ListItem[]
      */
     public function getList() : array;
+
+    public function getHash() : string;
+
+    public function getRefreshInterval() : int;
 }

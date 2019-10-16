@@ -7,8 +7,6 @@ namespace App\Bcr;
 use App\Bcr\SocialMediaService\Factory;
 use App\Bcr\SocialMediaService\Type;
 use Generator;
-use function json_encode;
-use function sha1;
 
 class Configuration
 {
@@ -24,7 +22,7 @@ class Configuration
     {
         $factory = new Factory();
         foreach ($this->configuration as $configuration) {
-            yield sha1(json_encode($configuration)) => $factory->create(new Type($configuration['type']), $configuration['options']);
+            yield $factory->create(new Type($configuration['type']), $configuration['options']);
         }
     }
 }

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Bcr\SocialMediaService;
 
 use App\Bcr\Feed\ListItem;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Zend\Feed\Reader\Reader;
 use function array_map;
 use function iterator_to_array;
+use function sha1;
+use function sprintf;
 
 class Rss implements SocialMediaServiceInterface
 {
@@ -45,8 +48,18 @@ class Rss implements SocialMediaServiceInterface
                 },
                 iterator_to_array($feed)
             );
-        } catch (\Symfony\Component\HttpClient\Exception\ServerException $e) {
+        } catch (ServerException $e) {
             return [];
         }
+    }
+
+    public function getRefreshInterval() : int
+    {
+        return 5;
+    }
+
+    public function getHash() : string
+    {
+        return sprintf('rss_%s', sha1($this->feedUrl));
     }
 }

@@ -10,6 +10,7 @@ use Google_Service_YouTube;
 use Google_Service_YouTube_SearchResult;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
+use function sprintf;
 
 class YouTube implements SocialMediaServiceInterface
 {
@@ -56,5 +57,15 @@ class YouTube implements SocialMediaServiceInterface
             },
             $response->getItems()
         );
+    }
+
+    public function getHash() : string
+    {
+        return sprintf('youtube_%s', $this->channelId);
+    }
+
+    public function getRefreshInterval() : int
+    {
+        return 30;
     }
 }

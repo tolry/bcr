@@ -8,6 +8,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Bcr\Feed\ListItem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
+use function sprintf;
 
 class Twitter implements SocialMediaServiceInterface
 {
@@ -39,5 +40,15 @@ class Twitter implements SocialMediaServiceInterface
             },
             $twitterClient->get('/statuses/user_timeline', ['screen_name' => $this->username])
         );
+    }
+
+    public function getHash() : string
+    {
+        return sprintf('twitter_%s', $this->username);
+    }
+
+    public function getRefreshInterval() : int
+    {
+        return 15;
     }
 }

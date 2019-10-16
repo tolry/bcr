@@ -11,6 +11,7 @@ use function array_reduce;
 use function count;
 use function end;
 use function json_decode;
+use function sha1;
 use function sprintf;
 use function str_replace;
 use function urlencode;
@@ -72,5 +73,15 @@ class Flickr implements SocialMediaServiceInterface
             },
             []
         );
+    }
+
+    public function getRefreshInterval() : int
+    {
+        return 15;
+    }
+
+    public function getHash() : string
+    {
+        return sprintf('flickr_%s', sha1($this->userId));
     }
 }
