@@ -43,7 +43,7 @@ class CacheRefreshCommand extends Command
             $refreshInterval = $feed->getRefreshInterval();
 
             if ((int) date('i') % $refreshInterval !== 0) {
-                // continue;
+                continue;
             }
 
             $items = $feed->getList();
