@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
 import Feed from './feed.jsx'
+import Visibility from 'visibilityjs'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import {
@@ -58,7 +59,10 @@ class App extends React.Component {
 
     componentDidMount() {
         this.loadData()
-        setInterval(() => this.loadData(), 30000)
+
+        Visibility.onVisible(this.loadData)
+
+        Visibility.every(30000, this.loadData)
     }
 
     channels = items => {
@@ -100,6 +104,10 @@ class App extends React.Component {
     }
 
     loadData = () => {
+        if (Visibility.state() === 'hidden') {
+            return
+        }
+
         this.setState({
             loading: true,
         })
