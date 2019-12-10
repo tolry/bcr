@@ -4,7 +4,7 @@
     "require": {
         "php": "^7.2.0",
         "ext-iconv": "*",
-        "abraham/twitteroauth": "dev-master#534e2d0411585805e149f2c41281368c2047d548",
+        "abraham/twitteroauth": "^1.1.0",
         "google/apiclient": "~2.0",
         "kriswallsmith/buzz": "^0.16.0",
         "myclabs/php-enum": "^1.6",
