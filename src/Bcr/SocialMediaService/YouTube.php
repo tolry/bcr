@@ -66,6 +66,6 @@ class YouTube implements SocialMediaServiceInterface
 
     public function getRefreshInterval() : int
     {
-        return 30;
+        return 60;
     }
 }
