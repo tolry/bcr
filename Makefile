@@ -11,3 +11,7 @@ dev: vendor node_modules
 
 dev-stop:
 	symfony local:server:stop
+
+prod: vendor node_modules
+	sudo -u www-data bin/console ca:cl --env=prod
+	#sudo -u www-data
