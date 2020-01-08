@@ -16,16 +16,16 @@ use function uniqid;
 
 class ListItem
 {
-    public $id;
-    public $link;
-    public $images = [];
-    public $audio  = [];
-    public $title;
-    public $description;
-    public $published;
-    public $channel;
-    public $debugInfo;
-    public $videoProperties = [];
+    public string $id;
+    public string $link;
+    public array $images = [];
+    public array $audio  = [];
+    public ?string $title;
+    public ?string $description;
+    public \DateTime $published;
+    public \App\Bcr\Channel $channel;
+    public array $debugInfo;
+    public array $videoProperties = [];
 
     public function __construct(
         string $id,

@@ -8,10 +8,10 @@ use function sprintf;
 
 class Channel
 {
-    public $id;
-    public $icon;
-    public $label;
-    public $type;
+    public string $id;
+    public array $icon;
+    public string $label;
+    public string $type;
 
     private function __construct(
         string $icon,

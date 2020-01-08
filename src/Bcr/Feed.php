@@ -11,10 +11,8 @@ use function array_merge;
 
 class Feed
 {
-    /** @var Configuration */
-    private $configuration;
-    /** @var CacheItemPoolInterface */
-    private $cache;
+    private \App\Bcr\Configuration $configuration;
+    private \App\Bcr\Feed\Cache $cache;
 
     public function __construct(Configuration $configuration, Cache $cache)
     {

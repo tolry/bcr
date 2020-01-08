@@ -10,7 +10,7 @@ use Generator;
 
 class Configuration
 {
-    private $configuration;
+    private array $configuration;
 
     /** @param array<array<string,string|array<string,string>>> $configuration */
     public function __construct(array $configuration)

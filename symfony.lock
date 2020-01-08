@@ -2,6 +2,9 @@
     "abraham/twitteroauth": {
         "version": "0.7.4"
     },
+    "composer/xdebug-handler": {
+        "version": "1.4.0"
+    },
     "container-interop/container-interop": {
         "version": "1.2.0"
     },
@@ -68,6 +71,9 @@
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
+    "jean85/pretty-package-versions": {
+        "version": "1.2"
+    },
     "kriswallsmith/buzz": {
         "version": "v0.16.0"
     },
@@ -77,8 +83,35 @@
     "myclabs/php-enum": {
         "version": "1.6.0"
     },
+    "nette/application": {
+        "version": "v3.0.3"
+    },
+    "nette/component-model": {
+        "version": "v3.0.0"
+    },
+    "nette/finder": {
+        "version": "v2.5.2"
+    },
+    "nette/http": {
+        "version": "v3.0.3"
+    },
+    "nette/robot-loader": {
+        "version": "v3.2.1"
+    },
+    "nette/routing": {
+        "version": "v3.0.0"
+    },
+    "nette/utils": {
+        "version": "v3.1.0"
+    },
     "nikic/php-parser": {
         "version": "v4.0.2"
+    },
+    "ocramius/package-versions": {
+        "version": "1.5.1"
+    },
+    "ondram/ci-detector": {
+        "version": "3.1.1"
     },
     "php": {
         "version": "7.4"
@@ -94,6 +127,15 @@
     },
     "phpseclib/phpseclib": {
         "version": "2.0.10"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.2"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.4"
+    },
+    "phpstan/phpstan-phpunit": {
+        "version": "0.12.5"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -116,8 +158,14 @@
     "ralouphie/getallheaders": {
         "version": "2.0.5"
     },
+    "rector/rector": {
+        "version": "v0.6.9"
+    },
     "roave/security-advisories": {
         "version": "dev-master"
+    },
+    "sebastian/diff": {
+        "version": "3.0.2"
     },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
@@ -433,6 +481,21 @@
     },
     "symfony/yaml": {
         "version": "v4.0.6"
+    },
+    "symplify/auto-bind-parameter": {
+        "version": "v7.2.0"
+    },
+    "symplify/autowire-array-parameter": {
+        "version": "v7.2.0"
+    },
+    "symplify/package-builder": {
+        "version": "v7.2.0"
+    },
+    "symplify/set-config-resolver": {
+        "version": "v7.2.0"
+    },
+    "symplify/smart-file-system": {
+        "version": "v7.2.0"
     },
     "twig/twig": {
         "version": "v2.4.6"

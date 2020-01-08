@@ -13,9 +13,9 @@ use function urlencode;
 
 class Instagram implements SocialMediaServiceInterface
 {
-    private $token;
-    private $httpClient;
-    private $lazyResponse;
+    private string $token;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
 
     public function __construct(HttpClientInterface $httpClient, string $token)
     {
@@ -45,9 +45,7 @@ class Instagram implements SocialMediaServiceInterface
         $data = $this->lazyResponse->toArray();
 
         return array_map(
-            static function ($item) {
-                return ListItem::createFromInstagramItem($item);
-            },
+            fn($item) => ListItem::createFromInstagramItem($item),
             $data['data']
         );
     }

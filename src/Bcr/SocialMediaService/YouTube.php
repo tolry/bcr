@@ -14,8 +14,8 @@ use function sprintf;
 
 class YouTube implements SocialMediaServiceInterface
 {
-    private $apiClient;
-    private $channelId;
+    private \Google_Service_YouTube $apiClient;
+    private string $channelId;
 
     public function __construct(
         HttpClientInterface $httpClient,
@@ -52,9 +52,7 @@ class YouTube implements SocialMediaServiceInterface
         );
 
         return array_map(
-            static function (Google_Service_YouTube_SearchResult $item) {
-                return ListItem::createFromYoutubeSearchResult($item);
-            },
+            fn(Google_Service_YouTube_SearchResult $item) => ListItem::createFromYoutubeSearchResult($item),
             $response->getItems()
         );
     }

@@ -18,8 +18,8 @@ class CacheRefreshCommand extends Command
 {
     protected static $defaultName = 'app:cache-refresh';
 
-    private $configuration;
-    private $cache;
+    private \App\Bcr\Configuration $configuration;
+    private \App\Bcr\Feed\Cache $cache;
 
     public function __construct(Configuration $configuration, Cache $cache)
     {

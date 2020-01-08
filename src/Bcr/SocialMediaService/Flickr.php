@@ -18,9 +18,9 @@ use function urlencode;
 
 class Flickr implements SocialMediaServiceInterface
 {
-    private $userId;
-    private $lazyResponse;
-    private $httpClient;
+    private string $userId;
+    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $userId)
     {
@@ -53,9 +53,7 @@ class Flickr implements SocialMediaServiceInterface
 
         return array_reduce(
             array_map(
-                static function ($item) {
-                    return ListItem::createFromFlickrItem($item);
-                },
+                fn($item) => ListItem::createFromFlickrItem($item),
                 $data['items']
             ),
             static function (array $carry, ListItem $item) {

@@ -15,9 +15,9 @@ use function sprintf;
 
 class Rss implements SocialMediaServiceInterface
 {
-    private $feedUrl;
-    private $lazyResponse;
-    private $httpClient;
+    private string $feedUrl;
+    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $feedUrl)
     {
@@ -43,10 +43,8 @@ class Rss implements SocialMediaServiceInterface
             $feed = Reader::importString($this->lazyResponse->getContent());
 
             return array_map(
-                static function ($item) use ($feed) {
-                    return ListItem::createFromRssItem($item, $feed->getTitle());
-                },
-                iterator_to_array($feed)
+                fn($item) => ListItem::createFromRssItem($item, $feed->getTitle()),
+                [...$feed]
             );
         } catch (ServerException $e) {
             return [];

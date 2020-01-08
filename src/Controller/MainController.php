@@ -14,8 +14,8 @@ use function usort;
 
 class MainController extends Controller
 {
-    private $logger;
-    private $feed;
+    private \Psr\Log\LoggerInterface $logger;
+    private \App\Bcr\Feed $feed;
 
     public function __construct(Feed $feed, LoggerInterface $logger)
     {
@@ -34,9 +34,7 @@ class MainController extends Controller
 
         usort(
             $items,
-            static function (ListItem $a, ListItem $b) {
-                                return $b->published <=> $a->published;
-            }
+            fn(ListItem $a, ListItem $b) => $b->published <=> $a->published
         );
 
         return new JsonResponse($items);

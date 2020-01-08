@@ -12,9 +12,9 @@ use function sprintf;
 
 class Twitter implements SocialMediaServiceInterface
 {
-    private $username;
-    private $key;
-    private $secret;
+    private string $username;
+    private string $key;
+    private string $secret;
 
     public function __construct(HttpClientInterface $httpClient, string $username, string $key, string $secret)
     {
@@ -35,9 +35,7 @@ class Twitter implements SocialMediaServiceInterface
         $twitterClient = new TwitterOAuth($this->key, $this->secret);
 
         return array_map(
-            function ($item) {
-                return ListItem::createFromTwitterItem($item, $this->username);
-            },
+            fn($item) => ListItem::createFromTwitterItem($item, $this->username),
             $twitterClient->get('/statuses/user_timeline', ['screen_name' => $this->username])
         );
     }
