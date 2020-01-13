@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bcr\SocialMediaService;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use App\Bcr\Feed\ListItem;
 use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,8 +17,8 @@ use function sprintf;
 class Rss implements SocialMediaServiceInterface
 {
     private string $feedUrl;
-    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private ResponseInterface $lazyResponse;
+    private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $feedUrl)
     {

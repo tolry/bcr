@@ -17,7 +17,7 @@ use function str_replace;
 
 class AuthController extends Controller
 {
-    private \Psr\Log\LoggerInterface $logger;
+    private LoggerInterface $logger;
     private $clientId;
     private $clientSecret;
 

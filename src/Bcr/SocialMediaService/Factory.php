@@ -9,7 +9,7 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 
 final class Factory
 {
-    private \Symfony\Component\HttpClient\CurlHttpClient $httpClient;
+    private CurlHttpClient $httpClient;
 
     public function __construct()
     {

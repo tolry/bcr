@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 namespace App\Bcr\SocialMediaService;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use App\Bcr\Feed\ListItem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
@@ -19,8 +20,8 @@ use function urlencode;
 class Flickr implements SocialMediaServiceInterface
 {
     private string $userId;
-    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private ResponseInterface $lazyResponse;
+    private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $userId)
     {

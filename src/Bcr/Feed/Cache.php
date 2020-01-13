@@ -13,8 +13,8 @@ use function sprintf;
 
 class Cache
 {
-    private \Psr\Cache\CacheItemPoolInterface $cache;
-    private \Psr\Log\LoggerInterface $logger;
+    private CacheItemPoolInterface $cache;
+    private LoggerInterface $logger;
 
     public function __construct(CacheItemPoolInterface $cache, LoggerInterface $logger)
     {
