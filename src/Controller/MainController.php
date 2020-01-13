@@ -14,8 +14,8 @@ use function usort;
 
 class MainController extends Controller
 {
-    private \Psr\Log\LoggerInterface $logger;
-    private \App\Bcr\Feed $feed;
+    private LoggerInterface $logger;
+    private Feed $feed;
 
     public function __construct(Feed $feed, LoggerInterface $logger)
     {

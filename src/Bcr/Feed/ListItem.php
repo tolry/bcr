@@ -22,8 +22,8 @@ class ListItem
     public array $audio  = [];
     public ?string $title;
     public ?string $description;
-    public \DateTime $published;
-    public \App\Bcr\Channel $channel;
+    public DateTime $published;
+    public Channel $channel;
     public array $debugInfo;
     public array $videoProperties = [];
 

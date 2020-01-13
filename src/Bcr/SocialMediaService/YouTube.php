@@ -14,7 +14,7 @@ use function sprintf;
 
 class YouTube implements SocialMediaServiceInterface
 {
-    private \Google_Service_YouTube $apiClient;
+    private Google_Service_YouTube $apiClient;
     private string $channelId;
 
     public function __construct(

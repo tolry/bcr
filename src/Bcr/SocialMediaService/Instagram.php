@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bcr\SocialMediaService;
 
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use App\Bcr\Feed\ListItem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_map;
@@ -14,8 +15,8 @@ use function urlencode;
 class Instagram implements SocialMediaServiceInterface
 {
     private string $token;
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
-    private \Symfony\Contracts\HttpClient\ResponseInterface $lazyResponse;
+    private HttpClientInterface $httpClient;
+    private ResponseInterface $lazyResponse;
 
     public function __construct(HttpClientInterface $httpClient, string $token)
     {
