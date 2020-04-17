@@ -6,14 +6,18 @@ namespace App\Bcr\SocialMediaService;
 
 use RuntimeException;
 use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class Factory
 {
-    private CurlHttpClient $httpClient;
+    /**
+     * @var HttpClientInterface
+     */
+    private HttpClientInterface $httpClient;
 
-    public function __construct()
+    public function __construct(HttpClientInterface $httpClient)
     {
-        $this->httpClient = new CurlHttpClient();
+        $this->httpClient = $httpClient;
     }
 
     /**

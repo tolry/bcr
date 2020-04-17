@@ -7,6 +7,7 @@ namespace App\Bcr;
 use App\Bcr\SocialMediaService\Factory;
 use App\Bcr\SocialMediaService\Type;
 use Generator;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Configuration
 {
@@ -18,9 +19,9 @@ class Configuration
         $this->configuration = $configuration;
     }
 
-    public function getAllFeeds() : Generator
+    public function getAllFeeds(HttpClientInterface $httpClient) : Generator
     {
-        $factory = new Factory();
+        $factory = new Factory($httpClient);
         foreach ($this->configuration as $configuration) {
             yield $factory->create(new Type($configuration['type']), $configuration['options']);
         }

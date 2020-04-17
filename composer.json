@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.0",
+        "php": "^7.4",
         "ext-iconv": "*",
         "abraham/twitteroauth": "^1.1.0",
         "google/apiclient": "~2.0",

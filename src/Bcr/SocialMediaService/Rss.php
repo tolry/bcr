@@ -8,6 +8,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use App\Bcr\Feed\ListItem;
 use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Zend\Feed\Exception\RuntimeException;
 use Zend\Feed\Reader\Reader;
 use function array_map;
 use function iterator_to_array;
@@ -41,13 +42,17 @@ class Rss implements SocialMediaServiceInterface
                 $this->initializeApiRequest();
             }
 
-            $feed = Reader::importString($this->lazyResponse->getContent());
+            try {
+                $feed = Reader::importString($this->lazyResponse->getContent());
+            } catch (RuntimeException $e) {
+                return [];
+            }
 
             return array_map(
                 fn($item) => ListItem::createFromRssItem($item, $feed->getTitle()),
                 [...$feed]
             );
-        } catch (ServerException $e) {
+        } catch (RuntimeException | ServerException $e) {
             return [];
         }
     }
