@@ -7,6 +7,7 @@ namespace App\Bcr;
 use App\Bcr\Feed\Cache;
 use App\Bcr\Feed\ListItem;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use function array_merge;
 
 class Feed
@@ -25,6 +26,7 @@ class Feed
     {
         $items          = [];
         $nonCachedFeeds = [];
+
         foreach ($this->configuration->getAllFeeds() as $feed) {
             $cachedItems = $this->cache->get($feed);
             if (! empty($cachedItems)) {
@@ -38,7 +40,16 @@ class Feed
         }
 
         foreach ($nonCachedFeeds as $feed) {
-            $newItems = $feed->getList();
+            try {
+                $newItems = $feed->getList();
+            } catch (TransportExceptionInterface $e) {
+                if (class_exists(\Tideways\Profiler)) {
+                    \Tideways\Profiler::logException($e);
+                }
+
+                $newItems = [];
+            }
+
             $this->cache->set($newItems, $feed->getHash());
 
             $items = array_merge($items, $newItems);
