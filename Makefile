@@ -1,4 +1,5 @@
 node_modules: package.json yarn.lock
+	#nvm use stable
 	yarn install
 
 vendor: composer.json composer.lock
@@ -13,5 +14,6 @@ dev-stop:
 	symfony local:server:stop
 
 prod: vendor node_modules
+	sudo chown -R www-data:www-data var
 	sudo -u www-data bin/console ca:cl --env=prod
 	#sudo -u www-data
