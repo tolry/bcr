@@ -18,7 +18,7 @@ use function sprintf;
 class Rss implements SocialMediaServiceInterface
 {
     private string $feedUrl;
-    private ResponseInterface $lazyResponse;
+    private ?ResponseInterface $lazyResponse = null;
     private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $feedUrl)
