@@ -16,7 +16,7 @@ class Instagram implements SocialMediaServiceInterface
 {
     private string $token;
     private HttpClientInterface $httpClient;
-    private ResponseInterface $lazyResponse;
+    private ?ResponseInterface $lazyResponse = null;
 
     public function __construct(HttpClientInterface $httpClient, string $token)
     {

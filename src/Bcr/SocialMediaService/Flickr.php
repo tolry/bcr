@@ -20,7 +20,7 @@ use function urlencode;
 class Flickr implements SocialMediaServiceInterface
 {
     private string $userId;
-    private ResponseInterface $lazyResponse;
+    private ?ResponseInterface $lazyResponse = null;
     private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, string $userId)
